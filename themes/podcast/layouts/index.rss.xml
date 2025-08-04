@@ -15,7 +15,7 @@
   <channel>
     <title>{{ .Site.Title }}</title>
     <link>{{ .Permalink }}</link>
-    <description>{{ .Site.Params.description }}</description>
+    <description>{{ printf "<![CDATA[%s]]>" .Site.Params.description | safeHTML }}</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>{{ .Site.LanguageCode }}</language>
     <copyright>{{ .Site.Params.copyright }}</copyright>
@@ -30,7 +30,7 @@
     
     {{/* iTunes specific tags */}}
     <itunes:author>{{ .Site.Params.itunes.author }}</itunes:author>
-    <itunes:summary>{{ .Site.Params.description }}</itunes:summary>
+    <itunes:summary>{{ printf "<![CDATA[%s]]>" .Site.Params.description | safeHTML }}</itunes:summary>
     <itunes:owner>
       <itunes:name>{{ .Site.Params.itunes.owner.name }}</itunes:name>
       <itunes:email>{{ .Site.Params.itunes.owner.email }}</itunes:email>
@@ -53,8 +53,8 @@
       <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
       {{ with .Site.Params.author }}<author>{{ . }}</author>{{ end }}
       <guid>{{ .Permalink }}</guid>
-      <description>{{ .Summary | html }}</description>
-      <content:encoded><![CDATA[{{ .Content | safeHTML }}]]></content:encoded>
+      <description>{{ printf "<![CDATA[%s]]>" .Summary | safeHTML }}</description>
+      <content:encoded>{{ printf "<![CDATA[%s]]>" .Content | safeHTML }}</content:encoded>
       
       {{/* Episode audio enclosure */}}
       {{- with .Params.audio }}
@@ -63,7 +63,7 @@
       
       {{/* iTunes episode tags */}}
       <itunes:author>{{ .Site.Params.itunes.author }}</itunes:author>
-      <itunes:summary>{{ .Summary | plainify }}</itunes:summary>
+      <itunes:summary>{{ printf "<![CDATA[%s]]>" .Summary | safeHTML }}</itunes:summary>
       {{- with .Params.thumbnail }}
       <itunes:image href="{{ $.Site.BaseURL }}{{ . }}" />
       {{- else }}

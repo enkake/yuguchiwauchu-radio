@@ -28,10 +28,15 @@ jobs:
         with:
           hugo-version: 'latest'
           
+      - name: Setup ffprobe
+        uses: FedericoCarboni/setup-ffmpeg@v3
+        with:
+          ffmpeg: false
+          
       - name: Process audio metadata
         run: |
-          chmod +x scripts/process-audio-simple.sh
-          ./scripts/process-audio-simple.sh
+          chmod +x scripts/process-audio.sh
+          ./scripts/process-audio.sh
           
       - name: Build
         run: hugo --minify
