@@ -6,7 +6,9 @@
       "Bash(hugo new:*)",
       "Bash(go install:*)",
       "Bash(mkdir:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(chmod:*)",
+      "Bash(./scripts/process-audio.sh:*)"
     ],
     "deny": []
   }

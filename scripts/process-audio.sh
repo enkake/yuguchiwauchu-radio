@@ -19,15 +19,29 @@ get_audio_metadata() {
     
     # Get file size and content type using curl HEAD request (follow redirects)
     local headers=$(curl -sI -L "$audio_url")
+    local http_status=$(echo "$headers" | head -1 | awk '{print $2}')
     local file_size=$(echo "$headers" | grep -i "content-length:" | tail -1 | awk '{print $2}' | tr -d '\r')
     local content_type=$(echo "$headers" | grep -i "content-type:" | tail -1 | awk '{print $2}' | tr -d '\r')
     
-    # Default values
-    if [ -z "$file_size" ]; then
-        file_size="0"
+    # Check if HTTP request was successful
+    if [ "$http_status" != "200" ]; then
+        echo "  ❌ Error: HTTP status $http_status for $audio_url" >&2
+        rm -f "$temp_file"
+        return 1
     fi
-    if [ -z "$content_type" ]; then
-        content_type="audio/mpeg"
+    
+    # Check if it's actually an audio file
+    if [[ ! "$content_type" =~ ^audio/ ]] && [[ ! "$content_type" =~ mpeg$ ]]; then
+        echo "  ❌ Error: Invalid content type '$content_type' (expected audio/*) for $audio_url" >&2
+        rm -f "$temp_file"
+        return 1
+    fi
+    
+    # Default values
+    if [ -z "$file_size" ] || [ "$file_size" = "0" ]; then
+        echo "  ❌ Error: Invalid file size for $audio_url" >&2
+        rm -f "$temp_file"
+        return 1
     fi
     
     # Try to get duration using ffprobe if available
@@ -48,17 +62,25 @@ get_audio_metadata() {
     rm -f "$temp_file"
 }
 
+# Track if any errors occurred
+has_errors=0
+
 # Process each episode file
 for file in content/episodes/*.md; do
     if [ -f "$file" ]; then
-        # Check if audio metadata already exists
-        if ! grep -q "audio_length:" "$file"; then
-            # Extract audio URL from frontmatter
-            audio_url=$(awk '/^audio:/ {gsub(/"/, "", $2); print $2}' "$file")
-            
-            if [ -n "$audio_url" ]; then
+        # Extract audio URL from frontmatter
+        audio_url=$(awk '/^audio:/ {gsub(/"/, "", $2); print $2}' "$file")
+        
+        if [ -n "$audio_url" ]; then
                 # Get metadata
                 metadata=$(get_audio_metadata "$audio_url")
+                
+                # Check if get_audio_metadata failed
+                if [ $? -ne 0 ]; then
+                    echo "❌ Failed to process: $file" >&2
+                    has_errors=1
+                    continue
+                fi
                 
                 echo "Raw metadata: $metadata" >&2
                 
@@ -75,18 +97,24 @@ for file in content/episodes/*.md; do
                 # Create temporary file
                 tmpfile=$(mktemp)
                 
-                # Add metadata to frontmatter
+                # Remove existing metadata and add new metadata to frontmatter
                 awk -v file_size="$audio_length" -v file_type="$audio_type" -v file_duration="$audio_duration" '
-                    BEGIN { count = 0 }
+                    BEGIN { count = 0; in_frontmatter = 0 }
                     /^---$/ { 
                         count++
+                        if (count == 1) in_frontmatter = 1
                         if (count == 2) {
-                            # Add metadata before the closing ---
+                            in_frontmatter = 0
+                            # Add new metadata before the closing ---
                             print "audio_length: " file_size
                             print "audio_type: \"" file_type "\""
                             print "audio_duration: \"" file_duration "\""
                         }
                     }
+                    # Skip existing audio metadata lines
+                    in_frontmatter && /^audio_length:/ { next }
+                    in_frontmatter && /^audio_type:/ { next }
+                    in_frontmatter && /^audio_duration:/ { next }
                     { print }
                 ' "$file" > "$tmpfile"
                 
@@ -98,8 +126,15 @@ for file in content/episodes/*.md; do
                 echo "  Type: $audio_type"
                 echo "  Duration: $audio_duration"
             fi
-        else
-            echo "Skipping $file (already has metadata)"
-        fi
     fi
 done
+
+# Exit with error if any files failed
+if [ $has_errors -eq 1 ]; then
+    echo "" >&2
+    echo "❌ Some audio files could not be processed!" >&2
+    exit 1
+fi
+
+echo "" >&2
+echo "✅ All audio files processed successfully!" >&2
