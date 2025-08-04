@@ -5,7 +5,8 @@
       "Bash(find:*)",
       "Bash(hugo new:*)",
       "Bash(go install:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }
