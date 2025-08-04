@@ -1,0 +1,16 @@
+# Hugo generated files
+/public/
+/resources/_gen/
+
+# Temporary files
+.hugo_build.lock
+.audio-cache.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~

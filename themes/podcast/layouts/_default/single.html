@@ -1,0 +1,19 @@
+{{ define "main" }}
+<article class="episode-single">
+  <h1>{{ .Title }}</h1>
+  <time>{{ .Date.Format "2006/01/02" }}</time>
+  
+  {{ with .Params.audio }}
+  <audio controls>
+    <source src="{{ . }}" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  {{ end }}
+  
+  <div class="content">
+    {{ .Content }}
+  </div>
+  
+  <a href="/">&larr; エピソード一覧に戻る</a>
+</article>
+{{ end }}

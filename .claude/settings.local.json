@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(hugo new:*)",
+      "Bash(go install:*)",
+      "Bash(mkdir:*)"
+    ],
+    "deny": []
+  }
+}

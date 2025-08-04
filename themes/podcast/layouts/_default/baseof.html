@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
+  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" href="{{ .Site.BaseURL }}podcast.xml">
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+    .episode { margin-bottom: 2em; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+    audio { width: 100%; margin: 1em 0; }
+  </style>
+</head>
+<body>
+  {{ block "main" . }}{{ end }}
+</body>
+</html>

@@ -1,0 +1,41 @@
+baseURL: "https://example.com/"
+languageCode: "ja"
+title: "湯口は宇宙ラジオ"
+theme: "podcast"
+
+params:
+  description: "湯口は宇宙ラジオのPodcast"
+  author: "湯口は宇宙ラジオ"
+  email: "podcast@example.com"
+  copyright: "© 2024 湯口は宇宙ラジオ"
+  
+  # iTunes podcast metadata
+  itunes:
+    author: "湯口は宇宙ラジオ"
+    image: "/images/podcast-cover.jpg"
+    category: "Technology"
+    subcategory: ""
+    explicit: "false"
+    owner:
+      name: "湯口は宇宙ラジオ"
+      email: "podcast@example.com"
+    type: "episodic"
+    
+  # Default thumbnail for episodes without custom thumbnail
+  defaultThumbnail: "/images/default-thumbnail.jpg"
+
+# RSS output configuration
+outputs:
+  home:
+    - HTML
+    - RSS
+
+outputFormats:
+  RSS:
+    mediaType: "application/rss+xml"
+    baseName: "podcast"
+
+# Disable unnecessary pages
+disableKinds:
+  - taxonomy
+  - term

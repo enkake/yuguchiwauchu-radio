@@ -1,0 +1,17 @@
+{{ define "main" }}
+<div class="container">
+  <h1>{{ .Site.Title }}</h1>
+  <p>{{ .Site.Params.description }}</p>
+  
+  <h2>エピソード</h2>
+  <div class="episodes">
+    {{ range where .Site.RegularPages "Section" "episodes" }}
+    <article class="episode">
+      <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+      <time>{{ .Date.Format "2006/01/02" }}</time>
+      <p>{{ .Summary }}</p>
+    </article>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

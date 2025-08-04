@@ -1,0 +1,78 @@
+{{- $pctx := . -}}
+{{- if .IsHome -}}{{ $pctx = .Site }}{{- end -}}
+{{- $pages := slice -}}
+{{- if or $.IsHome $.IsSection -}}
+{{- $pages = $pctx.RegularPages -}}
+{{- else -}}
+{{- $pages = $pctx.Pages -}}
+{{- end -}}
+{{- $limit := .Site.Config.Services.RSS.Limit -}}
+{{- if ge $limit 1 -}}
+{{- $pages = $pages | first $limit -}}
+{{- end -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>{{ .Site.Title }}</title>
+    <link>{{ .Permalink }}</link>
+    <description>{{ .Site.Params.description }}</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>{{ .Site.LanguageCode }}</language>
+    <copyright>{{ .Site.Params.copyright }}</copyright>
+    {{- with .Site.Params.email }}<managingEditor>{{ . }}</managingEditor>{{ end }}
+    {{- with .Site.Params.email }}<webMaster>{{ . }}</webMaster>{{ end }}
+    {{- if not .Date.IsZero }}
+    <lastBuildDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
+    {{- end }}
+    {{ with .OutputFormats.Get "RSS" -}}
+    {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
+    {{ end -}}
+    
+    {{/* iTunes specific tags */}}
+    <itunes:author>{{ .Site.Params.itunes.author }}</itunes:author>
+    <itunes:summary>{{ .Site.Params.description }}</itunes:summary>
+    <itunes:owner>
+      <itunes:name>{{ .Site.Params.itunes.owner.name }}</itunes:name>
+      <itunes:email>{{ .Site.Params.itunes.owner.email }}</itunes:email>
+    </itunes:owner>
+    <itunes:explicit>{{ .Site.Params.itunes.explicit }}</itunes:explicit>
+    <itunes:image href="{{ .Site.BaseURL }}{{ .Site.Params.itunes.image }}" />
+    <itunes:category text="{{ .Site.Params.itunes.category }}">
+      {{- with .Site.Params.itunes.subcategory }}
+      <itunes:category text="{{ . }}" />
+      {{- end }}
+    </itunes:category>
+    <itunes:type>{{ .Site.Params.itunes.type }}</itunes:type>
+    
+    {{- $episodeCounter := 0 -}}
+    {{- range $pages }}
+    {{- $episodeCounter = add $episodeCounter 1 -}}
+    <item>
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink }}</link>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      {{ with .Site.Params.author }}<author>{{ . }}</author>{{ end }}
+      <guid>{{ .Permalink }}</guid>
+      <description>{{ .Summary | html }}</description>
+      <content:encoded><![CDATA[{{ .Content | safeHTML }}]]></content:encoded>
+      
+      {{/* Episode audio enclosure */}}
+      {{- with .Params.audio }}
+      <enclosure url="{{ . }}" length="{{ $.Params.audio_length | default "0" }}" type="{{ $.Params.audio_type | default "audio/mpeg" }}" />
+      {{- end }}
+      
+      {{/* iTunes episode tags */}}
+      <itunes:author>{{ .Site.Params.itunes.author }}</itunes:author>
+      <itunes:summary>{{ .Summary | plainify }}</itunes:summary>
+      {{- with .Params.thumbnail }}
+      <itunes:image href="{{ $.Site.BaseURL }}{{ . }}" />
+      {{- else }}
+      <itunes:image href="{{ $.Site.BaseURL }}{{ $.Site.Params.defaultThumbnail }}" />
+      {{- end }}
+      <itunes:duration>{{ .Params.audio_duration | default "00:00:00" }}</itunes:duration>
+      <itunes:episode>{{ $episodeCounter }}</itunes:episode>
+      <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    {{- end }}
+  </channel>
+</rss>

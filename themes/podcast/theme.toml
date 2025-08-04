@@ -1,0 +1,12 @@
+name = "Podcast"
+license = "MIT"
+licenselink = ""
+description = "A simple podcast theme"
+homepage = ""
+tags = ["podcast", "audio"]
+features = ["podcast", "rss"]
+min_version = "0.41.0"
+
+[author]
+  name = "湯口は宇宙ラジオ"
+  homepage = ""
