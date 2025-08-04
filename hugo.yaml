@@ -1,28 +1,28 @@
-baseURL: "https://example.com/"
+baseURL: "https://yuguchiwauchu.enkake.jp/"
 languageCode: "ja"
 title: "湯口は宇宙ラジオ"
 theme: "podcast"
 
 params:
-  description: "湯口は宇宙ラジオのPodcast"
-  author: "湯口は宇宙ラジオ"
-  email: "podcast@example.com"
-  copyright: "© 2024 湯口は宇宙ラジオ"
+  description: "湯口は宇宙ラジオ"
+  author: "湯口は宇宙"
+  email: "podcast@enkake.co.jp"
+  copyright: "© 2025 enkake, Inc."
   
   # iTunes podcast metadata
   itunes:
-    author: "湯口は宇宙ラジオ"
+    author: "湯口は宇宙"
     image: "/images/podcast-cover.jpg"
     category: "Technology"
     subcategory: ""
     explicit: "false"
     owner:
-      name: "湯口は宇宙ラジオ"
-      email: "podcast@example.com"
+      name: "湯口は宇宙"
+      email: "podcasts@enkake.co.jp"
     type: "episodic"
     
   # Default thumbnail for episodes without custom thumbnail
-  defaultThumbnail: "/images/default-thumbnail.jpg"
+  defaultThumbnail: "/images/episodes/default.jpg"
 
 # RSS output configuration
 outputs:
