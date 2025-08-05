@@ -20,7 +20,9 @@
       "Bash(gh pr close:*)",
       "Bash(gh pr list:*)",
       "Bash(pkill:*)",
-      "Bash(hugo)"
+      "Bash(hugo)",
+      "Bash(hugo list:*)",
+      "Bash(cat:*)"
     ],
     "deny": []
   }
