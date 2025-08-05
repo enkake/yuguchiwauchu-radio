@@ -8,7 +8,9 @@
       "Bash(mkdir:*)",
       "Bash(rm:*)",
       "Bash(chmod:*)",
-      "Bash(./scripts/process-audio.sh:*)"
+      "Bash(./scripts/process-audio.sh:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
