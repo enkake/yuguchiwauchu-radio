@@ -35,6 +35,9 @@
       <itunes:name>{{ .Site.Params.itunes.owner.name }}</itunes:name>
       <itunes:email>{{ .Site.Params.itunes.owner.email }}</itunes:email>
     </itunes:owner>
+    {{- with .Site.Params.podcast_link }}
+    <podcast:link rel="{{.rel}}" type="{{.type}}" href="{{.href}}">{{.text}}</podcast:link>
+    {{- end }}
     <itunes:explicit>{{ .Site.Params.itunes.explicit }}</itunes:explicit>
     <itunes:image href="{{ .Site.BaseURL }}{{ .Site.Params.itunes.image | strings.TrimPrefix "/" }}" />
     <itunes:category text="{{ .Site.Params.itunes.category }}">
@@ -43,8 +46,17 @@
       {{- end }}
     </itunes:category>
     <itunes:type>{{ .Site.Params.itunes.type }}</itunes:type>
+    {{- with .Site.Params.itunes.complete }}
+    <itunes:complete>{{ . }}</itunes:complete>
+    {{- end }}
+    {{- with .Site.Params.itunes.new_feed_url }}
+    <itunes:new-feed-url>{{ . }}</itunes:new-feed-url>
+    {{- end }}
     {{- with .Site.Params.ttl }}
     <ttl>{{ . }}</ttl>
+    {{- end }}
+    {{- with .Site.Params.itunes.block }}
+    <itunes:block>{{ . }}</itunes:block>
     {{- end }}
     
     {{- $episodeCounter := 0 -}}

@@ -13,6 +13,7 @@ params:
   # iTunes podcast metadata
   itunes:
     author: "湯口は宇宙"
+    # Podcast cover image (推奨: 1400x1400〜3000x3000px, JPG or PNG)
     image: "/images/podcast-cover.jpg"
     category: "Society & Culture"
     subcategory: "Places & Travel"
