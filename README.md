@@ -163,3 +163,24 @@ git push origin main
    - "Add secret" をクリック
 
 これで、エピソードファイルがプッシュされると自動的に音声メタデータを取得し、更新PRが作成されます。
+
+### ワークフローの選択
+
+プロジェクトには2つのワークフローが含まれています：
+
+1. **`audio-metadata.yml`** (デフォルト・有効)
+   - ブランチごとに1つのPRを作成・更新
+   - レビューが必要な場合に推奨
+
+2. **`audio-metadata-direct.yml`** (無効)
+   - 現在のブランチに直接コミット
+   - 自動化を優先する場合に推奨
+   
+ワークフローを切り替えるには：
+```bash
+# PR作成版を無効化
+mv .github/workflows/audio-metadata.yml .github/workflows/audio-metadata.yml.disabled
+
+# 直接コミット版を有効化
+mv .github/workflows/audio-metadata-direct.yml.disabled .github/workflows/audio-metadata-direct.yml
+```
