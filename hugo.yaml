@@ -2,6 +2,7 @@ baseURL: "https://yuguchiwauchu.enkake.jp/"
 languageCode: "ja"
 title: "湯口は宇宙ラジオ"
 theme: "podcast"
+contentDir: "content"
 
 params:
   description: "湯口は宇宙ラジオ"
@@ -44,6 +45,8 @@ disableKinds:
 
 # Ignore files
 ignoreFiles:
+  - "README\\.md$"
   - "^README\\.md$"
+  - "/README\\.md$"
   - "\\.git"
   - "\\.gitignore"
