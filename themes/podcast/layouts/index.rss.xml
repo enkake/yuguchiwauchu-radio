@@ -57,8 +57,9 @@
       <content:encoded>{{ printf "<![CDATA[%s]]>" .Content | safeHTML }}</content:encoded>
       
       {{/* Episode audio enclosure */}}
+      {{- $page := . -}}
       {{- with .Params.audio }}
-      <enclosure url="{{ . }}" length="{{ $.Params.audio_length | default "0" }}" type="{{ $.Params.audio_type | default "audio/mpeg" }}" />
+      <enclosure url="{{ . }}" length="{{ $page.Params.audio_length | default "0" }}" type="{{ $page.Params.audio_type | default "audio/mpeg" }}" />
       {{- end }}
       
       {{/* iTunes episode tags */}}
