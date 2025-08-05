@@ -19,10 +19,13 @@ jobs:
         with:
           token: ${{ secrets.GH_PAT }}
           
-      - name: Setup ffprobe
+      - name: Setup ffmpeg
         uses: FedericoCarboni/setup-ffmpeg@v3
-        with:
-          ffmpeg: false
+        
+      - name: Verify ffprobe installation
+        run: |
+          which ffprobe || echo "ffprobe not found in PATH"
+          ffprobe -version || echo "ffprobe version failed"
           
       - name: Process audio metadata
         id: process

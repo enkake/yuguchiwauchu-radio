@@ -47,13 +47,41 @@ get_audio_metadata() {
     # Try to get duration using ffprobe if available
     local duration="00:00:00"
     if command -v ffprobe >/dev/null 2>&1; then
-        # Get duration without downloading entire file
-        # First get the final URL after redirects
-        local final_url=$(curl -sI -L -o /dev/null -w '%{url_effective}' "$audio_url")
-        local duration_seconds=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$final_url" 2>/dev/null)
-        if [ -n "$duration_seconds" ]; then
-            duration=$(format_duration ${duration_seconds%.*})
+        echo "  ffprobe is available" >&2
+        
+        # Try direct URL first
+        local ffprobe_output=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$audio_url" 2>&1)
+        local ffprobe_exit_code=$?
+        
+        if [ $ffprobe_exit_code -ne 0 ] || [ -z "$ffprobe_output" ]; then
+            echo "  Direct URL failed, trying with curl download..." >&2
+            # Download first few MB to get duration
+            local temp_audio=$(mktemp)
+            curl -L -s --max-filesize 5000000 -o "$temp_audio" "$audio_url" 2>/dev/null || true
+            
+            if [ -f "$temp_audio" ] && [ -s "$temp_audio" ]; then
+                ffprobe_output=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$temp_audio" 2>&1)
+                ffprobe_exit_code=$?
+                rm -f "$temp_audio"
+            fi
         fi
+        
+        echo "  ffprobe exit code: $ffprobe_exit_code" >&2
+        echo "  ffprobe output: $ffprobe_output" >&2
+        
+        if [ $ffprobe_exit_code -eq 0 ] && [ -n "$ffprobe_output" ]; then
+            local duration_seconds=$(echo "$ffprobe_output" | grep -E '^[0-9]+(\.[0-9]+)?$' | head -1)
+            if [ -n "$duration_seconds" ]; then
+                duration=$(format_duration ${duration_seconds%.*})
+                echo "  Calculated duration: $duration" >&2
+            else
+                echo "  Could not parse duration from output" >&2
+            fi
+        else
+            echo "  ffprobe failed to get duration" >&2
+        fi
+    else
+        echo "  ffprobe is not available" >&2
     fi
     
     # Output as JSON-like format
