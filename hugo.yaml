@@ -29,6 +29,13 @@ params:
   # RSS feed update frequency in minutes (optional)
   # ttl: 60
 
+  # Podcast platform links
+  platforms:
+    apple: "https://podcasts.apple.com/us/podcast/湯口は宇宙ラジオ/id1831194849"
+    spotify: "https://open.spotify.com/show/19G0cWsh1sU9f5uk7q8P78"
+    youtube: "https://www.youtube.com/playlist?list=PL0YjYISHXF7MaFFzljtWkIil8KdshGXeC"
+    amazon: "" # Amazon Music URL
+
 # RSS output configuration
 outputs:
   home:

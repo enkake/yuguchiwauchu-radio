@@ -9,6 +9,34 @@
     body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
     .episode { margin-bottom: 2em; padding-bottom: 1em; border-bottom: 1px solid #eee; }
     audio { width: 100%; margin: 1em 0; }
+    
+    /* Platform links */
+    .platforms { margin: 2em 0; padding: 1.5em; background: #f5f5f5; border-radius: 8px; }
+    .platforms h3 { margin: 0 0 1em 0; font-size: 1.1em; color: #666; }
+    .platform-links { display: flex; flex-wrap: wrap; gap: 1em; }
+    .platform-link {
+      display: inline-block;
+      padding: 0.5em 1.2em;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 24px;
+      text-decoration: none;
+      color: #333;
+      font-size: 0.95em;
+      transition: all 0.2s ease;
+    }
+    .platform-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Platform specific colors */
+    .platform-link.apple:hover { border-color: #FC3C44; color: #FC3C44; }
+    .platform-link.spotify:hover { border-color: #1DB954; color: #1DB954; }
+    .platform-link.youtube:hover { border-color: #FF0000; color: #FF0000; }
+    .platform-link.amazon:hover { border-color: #FF9900; color: #FF9900; }
+    .platform-link.rss { background: #FF8800; color: white; border-color: #FF8800; }
+    .platform-link.rss:hover { background: #FF6600; border-color: #FF6600; }
   </style>
 </head>
 <body>

@@ -3,6 +3,35 @@
   <h1>{{ .Site.Title }}</h1>
   <p>{{ .Site.Params.description }}</p>
   
+  <div class="platforms">
+    <h3>Listen on:</h3>
+    <div class="platform-links">
+      {{- with .Site.Params.platforms.apple }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="platform-link apple">
+        Apple Podcasts
+      </a>
+      {{- end }}
+      {{- with .Site.Params.platforms.spotify }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="platform-link spotify">
+        Spotify
+      </a>
+      {{- end }}
+      {{- with .Site.Params.platforms.youtube }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="platform-link youtube">
+        YouTube
+      </a>
+      {{- end }}
+      {{- with .Site.Params.platforms.amazon }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="platform-link amazon">
+        Amazon Music
+      </a>
+      {{- end }}
+      <a href="{{ .Site.BaseURL }}podcast.xml" class="platform-link rss">
+        RSS
+      </a>
+    </div>
+  </div>
+  
   <h2>エピソード</h2>
   <div class="episodes">
     {{ range where .Site.RegularPages "Section" "episodes" }}
