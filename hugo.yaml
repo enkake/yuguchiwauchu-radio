@@ -39,3 +39,9 @@ outputFormats:
 disableKinds:
   - taxonomy
   - term
+
+# Ignore files
+ignoreFiles:
+  - "^README\\.md$"
+  - "\\.git"
+  - "\\.gitignore"
