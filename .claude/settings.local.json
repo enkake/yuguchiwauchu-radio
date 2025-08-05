@@ -8,7 +8,17 @@
       "Bash(mkdir:*)",
       "Bash(rm:*)",
       "Bash(chmod:*)",
-      "Bash(./scripts/process-audio.sh:*)"
+      "Bash(./scripts/process-audio.sh:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(mv:*)",
+      "Bash(gh pr close:*)",
+      "Bash(gh pr list:*)"
     ],
     "deny": []
   }
