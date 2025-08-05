@@ -20,12 +20,12 @@ params:
     explicit: "false"
     owner:
       name: "湯口は宇宙"
-      email: "podcasts@enkake.co.jp"
+      email: "podcast@enkake.co.jp"
     type: "episodic"
 
   # Default thumbnail for episodes without custom thumbnail
   defaultThumbnail: "/images/episodes/default.jpg"
-  
+
   # RSS feed update frequency in minutes (optional)
   # ttl: 60
 
