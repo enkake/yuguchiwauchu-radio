@@ -5,9 +5,9 @@ draft: false
 audio: "https://yuguchiwauchu-radio.s3.ap-northeast-1.amazonaws.com/sample.mp3"
 thumbnail: "/images/episodes/default.jpg"
 description: "湯口は宇宙ラジオの記念すべき第1回。番組の紹介と今後の配信について話します。"
-audio_length: 999
-audio_type: "wrong/type"
-audio_duration: "00:00:00"
+audio_length: 111
+audio_type: "test/test"
+audio_duration: "11:11:11"
 ---
 
 湯口は宇宙ラジオへようこそ！

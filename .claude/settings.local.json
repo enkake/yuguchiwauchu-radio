@@ -16,7 +16,8 @@
       "Bash(gh run view:*)",
       "Bash(gh pr view:*)",
       "Bash(gh pr diff:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(gh pr close:*)"
     ],
     "deny": []
   }
