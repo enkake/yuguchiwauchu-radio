@@ -5,15 +5,17 @@ draft: false
 audio: "https://yuguchiwauchu-radio.s3.ap-northeast-1.amazonaws.com/sample.mp3"
 thumbnail: "/images/episodes/default.jpg"
 description: "湯口は宇宙ラジオの記念すべき第1回。番組の紹介と今後の配信について話します。"
-audio_length: 2133263
-audio_type: "audio/mp3"
-audio_duration: "00:01:06"
+subtitle: "番組紹介と今後の配信について"
+keywords: "宇宙,ポッドキャスト,湯口,テクノロジー,サイエンス"
 author: "湯口太郎、宇宙花子"
 contributors:
   - name: "湯口太郎"
     uri: "https://example.com/yuguchi"
   - name: "宇宙花子"
     uri: "https://example.com/uchu"
+audio_length: 2133263
+audio_type: "audio/mp3"
+audio_duration: "00:01:06"
 ---
 
 湯口は宇宙ラジオへようこそ！

@@ -36,13 +36,16 @@
       <itunes:email>{{ .Site.Params.itunes.owner.email }}</itunes:email>
     </itunes:owner>
     <itunes:explicit>{{ .Site.Params.itunes.explicit }}</itunes:explicit>
-    <itunes:image href="{{ .Site.BaseURL }}{{ .Site.Params.itunes.image }}" />
+    <itunes:image href="{{ .Site.BaseURL }}{{ .Site.Params.itunes.image | strings.TrimPrefix "/" }}" />
     <itunes:category text="{{ .Site.Params.itunes.category }}">
       {{- with .Site.Params.itunes.subcategory }}
       <itunes:category text="{{ . }}" />
       {{- end }}
     </itunes:category>
     <itunes:type>{{ .Site.Params.itunes.type }}</itunes:type>
+    {{- with .Site.Params.ttl }}
+    <ttl>{{ . }}</ttl>
+    {{- end }}
     
     {{- $episodeCounter := 0 -}}
     {{- range $pages }}
@@ -52,7 +55,7 @@
       <link>{{ .Permalink }}</link>
       <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
       {{ with .Site.Params.author }}<author>{{ . }}</author>{{ end }}
-      <guid>{{ .Permalink }}</guid>
+      <guid isPermaLink="true">{{ .Permalink }}</guid>
       <description>{{ printf "<![CDATA[%s]]>" .Summary | safeHTML }}</description>
       <content:encoded>{{ printf "<![CDATA[%s]]>" .Content | safeHTML }}</content:encoded>
       
@@ -81,15 +84,31 @@
       
       {{/* iTunes episode tags */}}
       <itunes:author>{{ .Params.author | default .Site.Params.itunes.author }}</itunes:author>
+      {{- with .Params.subtitle }}
+      <itunes:subtitle>{{ . }}</itunes:subtitle>
+      {{- end }}
       <itunes:summary>{{ printf "<![CDATA[%s]]>" .Summary | safeHTML }}</itunes:summary>
+      {{- with .Params.keywords }}
+      <itunes:keywords>{{ . }}</itunes:keywords>
+      {{- end }}
       {{- with .Params.thumbnail }}
-      <itunes:image href="{{ $.Site.BaseURL }}{{ . }}" />
+      <itunes:image href="{{ $.Site.BaseURL }}{{ . | strings.TrimPrefix "/" }}" />
       {{- else }}
-      <itunes:image href="{{ $.Site.BaseURL }}{{ $.Site.Params.defaultThumbnail }}" />
+      <itunes:image href="{{ $.Site.BaseURL }}{{ $.Site.Params.defaultThumbnail | strings.TrimPrefix "/" }}" />
       {{- end }}
       <itunes:duration>{{ .Params.audio_duration | default "00:00:00" }}</itunes:duration>
       <itunes:episode>{{ $episodeCounter }}</itunes:episode>
-      <itunes:episodeType>full</itunes:episodeType>
+      {{- with .Params.season }}
+      <itunes:season>{{ . }}</itunes:season>
+      {{- end }}
+      <itunes:episodeType>{{ .Params.episode_type | default "full" }}</itunes:episodeType>
+      {{- with .Params.transcript }}
+      <itunes:transcript>
+        <itunes:url>{{ . }}</itunes:url>
+        <itunes:type>text/html</itunes:type>
+        <itunes:language>{{ $.Site.LanguageCode }}</itunes:language>
+      </itunes:transcript>
+      {{- end }}
     </item>
     {{- end }}
   </channel>
