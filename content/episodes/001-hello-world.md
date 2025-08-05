@@ -8,6 +8,12 @@ description: "湯口は宇宙ラジオの記念すべき第1回。番組の紹�
 audio_length: 2133263
 audio_type: "audio/mp3"
 audio_duration: "00:01:06"
+author: "湯口太郎、宇宙花子"
+contributors:
+  - name: "湯口太郎"
+    uri: "https://example.com/yuguchi"
+  - name: "宇宙花子"
+    uri: "https://example.com/uchu"
 ---
 
 湯口は宇宙ラジオへようこそ！

@@ -11,7 +11,7 @@
 {{- $pages = $pages | first $limit -}}
 {{- end -}}
 {{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>{{ .Site.Title }}</title>
     <link>{{ .Permalink }}</link>
@@ -56,6 +56,23 @@
       <description>{{ printf "<![CDATA[%s]]>" .Summary | safeHTML }}</description>
       <content:encoded>{{ printf "<![CDATA[%s]]>" .Content | safeHTML }}</content:encoded>
       
+      {{/* Contributors */}}
+      {{- range .Params.contributors }}
+      <atom:contributor>
+        <atom:name>{{ .name }}</atom:name>
+        {{- with .uri }}
+        <atom:uri>{{ . }}</atom:uri>
+        {{- end }}
+      </atom:contributor>
+      {{- end }}
+      
+      {{/* DC Creator */}}
+      {{- if .Params.author }}
+      <dc:creator>{{ .Params.author }}</dc:creator>
+      {{- else }}
+      <dc:creator>{{ .Site.Params.author }}</dc:creator>
+      {{- end }}
+      
       {{/* Episode audio enclosure */}}
       {{- $page := . -}}
       {{- with .Params.audio }}
@@ -63,7 +80,7 @@
       {{- end }}
       
       {{/* iTunes episode tags */}}
-      <itunes:author>{{ .Site.Params.itunes.author }}</itunes:author>
+      <itunes:author>{{ .Params.author | default .Site.Params.itunes.author }}</itunes:author>
       <itunes:summary>{{ printf "<![CDATA[%s]]>" .Summary | safeHTML }}</itunes:summary>
       {{- with .Params.thumbnail }}
       <itunes:image href="{{ $.Site.BaseURL }}{{ . }}" />
