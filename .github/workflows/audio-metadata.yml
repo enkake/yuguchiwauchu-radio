@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
           
       - name: Setup ffprobe
         uses: FedericoCarboni/setup-ffmpeg@v3
@@ -43,7 +43,7 @@ jobs:
         if: steps.process.outputs.has_changes == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
           commit-message: "Update audio metadata for episodes"
           title: "🎧 Update audio metadata"
           body: |

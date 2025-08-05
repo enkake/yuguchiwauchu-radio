@@ -141,3 +141,25 @@ git push origin main
 - `params.description`: Podcast の説明
 - `params.itunes`: iTunes/Apple Podcasts 用メタデータ
 - `params.defaultThumbnail`: デフォルトのサムネイル画像パス
+
+## GitHub Actions の設定
+
+### Personal Access Token (PAT) の設定（必須）
+
+音声メタデータの自動更新PRを作成するために、Personal Access Token の設定が必要です：
+
+1. **GitHub で Personal Access Token を作成**
+   - GitHub の Settings > Developer settings > Personal access tokens > Tokens (classic)
+   - "Generate new token" をクリック
+   - 以下のスコープを選択:
+     - `repo` (すべてのリポジトリ権限)
+   - トークンをコピー（この画面を離れると二度と表示されません）
+   
+2. **リポジトリに Secret を追加**
+   - リポジトリの Settings > Secrets and variables > Actions
+   - "New repository secret" をクリック
+   - Name: `GH_PAT`
+   - Secret: コピーしたトークンを貼り付け
+   - "Add secret" をクリック
+
+これで、エピソードファイルがプッシュされると自動的に音声メタデータを取得し、更新PRが作成されます。
