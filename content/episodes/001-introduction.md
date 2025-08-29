@@ -1,5 +1,5 @@
 ---
-title: "第1回: イントロダクション"
+title: "第1回: 『Yuumies』誕生秘話 — お湯の質で選ぶ温泉検索と、4人の創業ストーリー"
 date: 2025-08-29T10:00:00+09:00
 draft: false
 audio: "https://yuguchiwauchu-radio.s3.ap-northeast-1.amazonaws.com/001.introduction.mp3"
